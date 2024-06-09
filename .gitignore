@@ -1,0 +1,6 @@
+## File types
+*.png
+*.pickle
+
+*__pycache__*
+*.ipynb_checkpoints*
