@@ -1,10 +1,11 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Mon May  6 11:55:57 2024
+This script can be used to compute and plot the empirical and model deviances.
+Since we are running the models on different noise instances than they
+have been trained on, this takes a while.
 
-@author: lynnschmittwilken
+@author: Lynn Schmittwilken, June 2024
 """
+
 
 import numpy as np
 import sys
