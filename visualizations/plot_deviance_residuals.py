@@ -11,7 +11,9 @@ import sys
 import matplotlib.pyplot as plt
 import pandas as pd
 from scipy.stats import norm
+import psignifit as ps
 
+sys.path.append('../simulations')
 from functions import load_params, create_filter_outputs, compute_performance, \
     create_edge, load_all_data, calc_deviance_residual, create_noises
 
@@ -26,6 +28,11 @@ noise_conds = sparams["noise_types"]
 n_edges = len(edge_conds)
 n_noises = len(noise_conds)
 nInstances = 30
+
+options = {
+    "sigmoidName": "norm",
+    "expType": "2AFC",
+}
 
 
 def reformat_data(data, n, e, vp='all', session=None):
@@ -141,8 +148,15 @@ def getModel(rfile1, rfile2, dfPool, dfInd, noiseDict, plotting=False):
     
             # Get performance of average observer (all contrasts)
             dfTemp = dfPool[(dfPool["noise"]==n) & (dfPool["edge"]==e)]
-            pc_human = dfTemp["ncorrect"].to_numpy() / dfTemp["ntrials"].to_numpy()
-    
+            psidata = np.array(
+                [dfTemp["contrasts"].to_numpy(),
+                 dfTemp["ncorrect"].to_numpy(),
+                 dfTemp["ntrials"].to_numpy()]
+                )
+            res = ps.psignifit(psidata.transpose(), optionsIn=options)
+            fit = res['Fit']
+            pc_human = (1 - fit[2] - fit[3]) * res['options']['sigmoidHandle'](dfTemp["contrasts"].to_numpy(), fit[0], fit[1]) + fit[3]
+            
             # Loop through all contrasts
             for i, c in enumerate(dfTemp["contrasts"].to_numpy()):
                 pc_model1 = get_performance(best_params1, mparams1, e, noiseDict[n], c)
@@ -164,7 +178,7 @@ def getModel(rfile1, rfile2, dfPool, dfInd, noiseDict, plotting=False):
             devHuman[ni, ei] = (np.array(devResHuman)**2.).sum()
             
             # Plot deviance residuals
-            if plotting:
+            if plotting=="model":
                 # Stack residuals larger than 5 / smaller than -5 + Binning + Normalizung
                 c1, b1 = bin_residuals(devResModel1, 5, 6)
                 c2, b2 = bin_residuals(devResModel2, 5, 6)
@@ -192,6 +206,14 @@ def getModel(rfile1, rfile2, dfPool, dfInd, noiseDict, plotting=False):
                 axes[ni, ei].plot(xnorm, -ynorm, "k")
                 axes[ni, ei].plot((biasModel2, biasModel2), (0, 0.9), "k", linestyle="dashed")
                 axes[ni, ei].plot(b_emp, -c_emp, colors[ei], drawstyle="steps", lw=2)
+
+            elif plotting=="empirical":
+                devResHuman = np.array(devResHuman)
+                devResHuman[devResHuman < -3] = -3
+                devResHuman[devResHuman >  3] = 3
+                c_emp, b_emp = bin_residuals(devResHuman, 5, 6)
+                axes[ni, ei].plot(b_emp, c_emp, colors[ei], drawstyle="steps", label="empirical", lw=2)
+                axes[ni, ei].fill_between(b_emp, c_emp, step="pre", alpha=0.5, color=colors[ei])
     return devModel1, devModel2, devHuman
 
 
@@ -205,14 +227,14 @@ noiseDict = create_noises(sparams, nInstances)
 
 rf1 = "../simulations/results_single.pickle"
 rf2 = "../simulations/results_multi.pickle"
-dev1, dev2, devHuman = getModel(rf1, rf2, dfPool, dfInd, noiseDict, plotting=True)
-plt.savefig('deviance-res_single-multi.png', dpi=300)
+dev1, dev2, devHuman = getModel(rf1, rf2, dfPool, dfInd, noiseDict, plotting="empirical")
+# plt.savefig('deviance-res_empirical.png', dpi=300)
 
 plt.figure(figsize=(4.5, 4))
 #nc = np.arange(0, n_noises); ec = np.arange(0, n_edges); ecl = ["LSF", "MSF", "HSF"]
 plt.subplot(121); plt.imshow(dev1/devHuman, "gray", vmin=1, vmax=8), plt.axis("off")
 plt.subplot(122); plt.imshow(dev2/devHuman, "gray", vmin=1, vmax=8), plt.axis("off")
-plt.savefig('deviance_single-multi.png', dpi=300)
+# plt.savefig('deviance_single-multi.png', dpi=300)
 
 ndata = 5 * 6
 print("Mean empirical deviance over all conditions is", (devHuman / ndata).mean())
