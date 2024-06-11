@@ -18,20 +18,20 @@ from functions import create_loggabors, compute_performance, get_lapse_rate, \
 sys.path.append('../experiment')
 from params import stim_params as sparams
 
-np.random.seed(0) # random seed for reproducibility
+np.random.seed(10) # random seed for reproducibility
 
 
 ####################################
 #           Parameters             #
 ####################################
-results_file = "results_multi_var_.pickle"
+results_file = "results_multi.pickle"
 
 # Model params
 fos = [0.5, 3., 9.]              # center SFs of log-Gabor filters
 sigma_fo = 0.5945                # from Schütt & Wichmann (2017)
 sigma_angleo = 0.2965            # from Schütt & Wichmann (2017)
-n_trials = 50                    # average performance over n-trials
-noiseVar = 2.                    # magnitude of internal noise
+n_trials = 30                    # average performance over n-trials
+noiseVar = 1.                    # magnitude of internal noise
 
 gain = None                      # None, global, channel, local, spatial
 sameNoise = True                 # use same or different noise instances?
@@ -161,15 +161,15 @@ start = time()
 
 # Filter outputs dont change with model params, so save+load to reduce runtime drastically
 print('------------------------------------------------')
-# print('Creating all filter outputs and save them to memory for computational efficiency')
-# save_filter_outputs(sparams, mparams, df, outDir)
+print('Creating all filter outputs and save them to memory for computational efficiency')
+save_filter_outputs(sparams, mparams, df, outDir)
 
 # Initial parameter guesses for grid search
-alpha = np.linspace(0., 8., 3)
+alpha = np.linspace(0., 5., 5)
 params_dict = {
-    "beta": np.linspace(0.5, 2.5, 3),
-    "eta": np.linspace(0., 1., 1),
-    "kappa": np.linspace(2., 4., 1),
+    "beta": np.linspace(0.5, 2.5, 5),
+    "eta": np.linspace(0., 1., 5),
+    "kappa": np.linspace(0., 4., 5),
     "alpha": alpha,
     "alpha2": alpha,
     "alpha3": alpha,
@@ -194,7 +194,7 @@ if automatic_grid:
     res = minimize(get_loss,
                    list(bparams.values()),
                    method='Nelder-Mead',      # Nelder-Mead (=Simplex)
-                   options={"maxiter": 1500},
+                   options={"maxiter": 500},
                    )
     
     # Save final results to pickle

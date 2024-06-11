@@ -7,7 +7,7 @@ and prints their best loss and the final parameters
 
 import pickle
 
-results_file = "results_multi_5.pickle"
+results_file = "results_multi.pickle"
 
 
 if __name__ == "__main__":
