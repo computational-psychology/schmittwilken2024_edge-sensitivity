@@ -30,7 +30,7 @@ results_file = "results_single.pickle"
 fos = [2.64553923,]              # fitted to CSF
 sigma_fo = 0.49796013            # fitted to CSF
 sigma_angleo = 0.2965            # from Schütt & Wichmann (2017)
-n_trials = 50                    # average performance over n-trials
+n_trials = 30                    # average performance over n-trials
 noiseVar = 1.                    # magnitude of internal noise
 
 gain = None                      # None, global, channel, local, spatial
