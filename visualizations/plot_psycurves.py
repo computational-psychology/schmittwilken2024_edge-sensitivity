@@ -10,13 +10,15 @@ have been trained on, this takes a while.
 import numpy as np
 import sys
 import matplotlib.pyplot as plt
+
+sys.path.insert(1, '../')
 import psignifit as ps
 
-sys.path.append('../simulations')
+sys.path.insert(1, '../simulations')
 from functions import create_filter_outputs, compute_performance, create_edge, \
     create_noises, plotPsych, load_all_data, reformat_data, load_params
 
-sys.path.append('../experiment')
+sys.path.insert(1, '../experiment')
 from params import stim_params as sparams
 
 np.random.seed(0)

@@ -14,12 +14,13 @@ from scipy.signal import fftconvolve
 import os
 import pickle
 import itertools
-import psignifit as ps
 from stimupy.noises.whites import white as create_whitenoise
 from stimupy.noises.narrowbands import narrowband as create_narrownoise
 from stimupy.noises.naturals import one_over_f as create_pinknoise
 
-sys.path.append('../experiment')
+sys.path.insert(1, '../')
+import psignifit as ps
+sys.path.insert(1, '../experiment')
 from stimulus_functions import cornsweet_illusion
 from helper_functions import load_mask
 

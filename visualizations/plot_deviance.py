@@ -12,13 +12,15 @@ import sys
 import matplotlib.pyplot as plt
 import pandas as pd
 from scipy.stats import norm
+
+sys.path.insert(1, '../')
 import psignifit as ps
 
-sys.path.append('../simulations')
+sys.path.insert(1, '../simulations')
 from functions import load_params, create_filter_outputs, compute_performance, \
     create_edge, load_all_data, calc_deviance_residual, create_noises
 
-sys.path.append('../experiment')
+sys.path.insert(1, '../experiment')
 from params import stim_params as sparams
 
 np.random.seed(0)
