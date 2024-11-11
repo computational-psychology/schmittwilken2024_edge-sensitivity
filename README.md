@@ -15,9 +15,9 @@ The repository contains the following:
 
 - Code for empirically testing edge sensitivity in noise and the psychophyical data: [experiment](experiment). If you want to run the experiment, you need to install the `HRL` library. For this, follow the instructions [here](https://github.com/computational-psychology/hrl).
 
-- Code to set up and optimize all the variations of the standard spatial vision model as described in the paper: [simulations](simulations). To create the noise masks for the simulation, run [create_noises.py](simulations/create_noises.py). To optimize the single-scale model, run [optimize_single.py](simulations/optimize_single.py). To optimize the multi-scale model, run [optimize_multi.py](simulations/optimize_multi.py). Since all variable parameters are part of the normalization-step, both scripts will first run and save and model outputs to disc to save compute time.
+- Code to set up and optimize all the variations of the standard spatial vision model as described in the paper: [simulations](simulations). To create the noise masks for the simulation, run [create_noises.py](simulations/create_noises.py). To optimize the single-scale model, run [optimize_single.py](simulations/optimize_single.py). To optimize the multi-scale model(s), run [optimize_multi.py](simulations/optimize_multi.py). Since all variable parameters are part of the normalization-step, both scripts will first run and save all model outputs to disc to reduce compute time.
 
-- Code to create the visualizations from the manuscript and explore the empirical data and the model: [visualizations](visualizations). In order to re-create the visualizations, first run the simulations to produce the respective results.
+- Code to create the visualizations from the manuscript and explore the empirical data and the model(s): [visualizations](visualizations). In order to re-create the deviance plots and model-psychometric-curves, you first need to run the simulations to produce the respective results.
 - An old version of `python-psignifit`: [psignifit](psignifit)
 
 ## Authors and acknowledgment
