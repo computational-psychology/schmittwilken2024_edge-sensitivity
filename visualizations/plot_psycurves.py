@@ -89,10 +89,10 @@ plotHuman(axes)
 # Plot pooled curves
 print()
 noiseDict = create_noises(sparams, nInstances)
-plotModel("../simulations/results_multi_5.pickle", axes, "--", "darkgray", noiseDict)
+plotModel("../simulations/results_single.pickle", axes, "--", "darkgray", noiseDict)
 plotModel("../simulations/results_multi.pickle", axes, "-.", "k", noiseDict)
 
 axes[3, 0].set(ylabel="Percent correct")
 axes[len(noise_conds)-1, 1].set(xlabel="Edge contrast [rms]")
-plt.savefig('psychocurves_multi-multi5.png', dpi=300)
+plt.savefig('psychocurves_single-multi.png', dpi=300)
 plt.show()

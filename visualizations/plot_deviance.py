@@ -231,13 +231,13 @@ noiseDict = create_noises(sparams, nInstances)
 rf1 = "../simulations/results_single.pickle"
 rf2 = "../simulations/results_multi.pickle"
 dev1, dev2, devHuman = getModel(rf1, rf2, dfPool, dfInd, noiseDict, plotting="empirical")
-# plt.savefig('deviance-res_empirical.png', dpi=300)
+plt.savefig('deviance-res_empirical.png', dpi=300)
 
 plt.figure(figsize=(4.5, 4))
 #nc = np.arange(0, n_noises); ec = np.arange(0, n_edges); ecl = ["LSF", "MSF", "HSF"]
 plt.subplot(121); plt.imshow(dev1/devHuman, "gray", vmin=1, vmax=8), plt.axis("off")
 plt.subplot(122); plt.imshow(dev2/devHuman, "gray", vmin=1, vmax=8), plt.axis("off")
-# plt.savefig('deviance_single-multi.png', dpi=300)
+plt.savefig('deviance_single-multi.png', dpi=300)
 
 ndata = 5 * 6
 print("Mean empirical deviance over all conditions is", (devHuman / ndata).mean())

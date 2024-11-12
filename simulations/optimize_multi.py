@@ -165,11 +165,11 @@ print('Creating all filter outputs and save them to memory for computational eff
 save_filter_outputs(sparams, mparams, df, outDir)
 
 # Initial parameter guesses for grid search
-alpha = np.linspace(0., 5., 5)
+alpha = np.linspace(0., 5., 3)
 params_dict = {
-    "beta": np.linspace(0.5, 2.5, 5),
-    "eta": np.linspace(0., 1., 5),
-    "kappa": np.linspace(0., 4., 5),
+    "beta": np.linspace(0.5, 2.5, 3),
+    "eta": np.linspace(0., 1., 3),
+    "kappa": np.linspace(0., 4., 3),
     "alpha": alpha,
     "alpha2": alpha,
     "alpha3": alpha,
